@@ -48,3 +48,17 @@ I dati utilizzati nel progetto sono contenuti in diversi file CSV:
 
   ```m
   #"Removed Null Values" = Table.SelectRows(#"Previous Step", each ([Sconto] <> null and [Quantita] <> null))
+
+- **Formattazione delle date**:
+  Le date nei file di vendite sono state formattate correttamente per poter essere utilizzate in visualizzazioni temporali (ad esempio, mese e anno).
+
+  ```m
+  #"Changed Type" = Table.TransformColumnTypes(#"Previous Step",{{"Data", type date}})
+
+- **Rimozione dei duplicati**:
+  I duplicati sono stati rimossi dove presente una duplicazione nelle righe delle vendite.
+
+  ```m
+  #"Removed Duplicates" = Table.Distinct(#"Previous Step")
+
+  
