@@ -61,4 +61,69 @@ I dati utilizzati nel progetto sono contenuti in diversi file CSV:
   ```m
   #"Removed Duplicates" = Table.Distinct(#"Previous Step")
 
+### 3. Trasformazione dei Dati:
+
+- **Unione delle tabelle**:  
+  Utilizzando la funzione Merge di Power Query, sono state unite le tabelle Vendite e Prodotti tramite il campo Prodotto_ID, così da includere la descrizione del prodotto e il prezzo unitario nelle vendite.
+  
+  ```m
+  #"Merged Queries" = Table.NestedJoin(#"Vendite", "Prodotto_ID", #"Prodotti", "Prodotto_ID", "Prodotti", JoinKind.Inner)
+
+- **Unione con il file dei negozi**:
+  È stato anche unito il file Negozi con la tabella Vendite tramite l'ID del negozio, così da includere tutte le informazioni relative al negozio (nome, città, provincia).
+
+  ```m
+  #"Merged with Negozi" = Table.NestedJoin(#"Vendite", "Negozi_ID", #"Negozi", "Negozi_ID", "Negozi", JoinKind.Inner)
+
+- **Creazione delle colonne calcolate**:
+  È stata creata una colonna calcolata per calcolare il Totale Vendite come il prodotto di Quantità e Prezzo (tenendo conto anche degli sconti applicati).
+
+  ```m
+  #"Aggiunto Totale Vendite" = Table.AddColumn(#"Previous Step", "TotaleVendite", each [Prezzo] * [Quantita] * (1 - [Sconto]), type number)
+
+- **Creazione delle relazioni**:
+  Sono state create le relazioni tra le tabelle, utilizzando gli ID dei prodotti, degli negozi e delle vendite. Le relazioni chiave sono:
+
+  - Vendite[Prodotto_ID] → Prodotti[Prodotto_ID]
+
+  - Vendite[Negozi_ID] → Negozi[Negozi_ID]
+
+  - Negozi[Provincia_ID] → Province[Provincia_ID]
+
+### 4. Creazione del Report:
+
+- **Pagina 1 (Vendite per mese)**:  
+  Una visualizzazione temporale è stata creata per mostrare le vendite totali per mese. Vengono considerati anche gli sconti e il numero di unità vendute.
+
+- **Pagina 2 (Unità Vendute per città)**:
+  Una visualizzazione a mappa è stata creata per visualizzare le unità vendute per ogni città, in base alla relazione con le province.
+
+- **Pagina 3 (Informazioni prodotto)**:
+  Una tabella è stata creata per visualizzare tutte le informazioni sui prodotti, con descrizione, prezzo unitario e quantità venduta.
+
+- **Pagina 4 (Informazioni negozio e vendite)**:
+  Una tabella unificata mostra le informazioni dei negozi insieme alle vendite, inclusi sconto, quantità e totale per ogni negozio.
+
+### 5. Funzionalità Bonus:
+
+- È stata creata una pagina che visualizza le vendite escluse i resi per i mesi di Gennaio e Febbraio, utilizzando il file Resi per sottrarre i resi dal totale vendite.
+
+  #"Vendite Senza Resi" = Table.AddColumn(#"Vendite", "VenditeSenzaResi", each [TotaleVendite] - [Resi], type number)
+
+### 6. Interattività e Navigazione:
+
+- Sono stati creati Segnalibri per permettere all'utente di salvare e navigare tra le visualizzazioni più rilevanti.
+- È stata configurata una navigazione tramite pulsanti che consente di spostarsi tra le diverse pagine del report.
+
+## Istruzioni per l'Uso del Report
+
+- **Pagina 1 (Vendite per mese)**: Visualizza le vendite totali per mese, tenendo conto dello sconto e delle unità vendute.
+
+- **Pagina 2 (Unità Vendute per città)**: Mostra le unità vendute per ciascuna città.
+
+- **Pagina 3 (Informazioni prodotto)**: Dettagli per ciascun prodotto, inclusi descrizione, prezzo e quantità venduta.
+
+- **Pagina 4 (Informazioni negozio e vendite)**: Mostra le informazioni per ciascun negozio, combinando i dati di vendita e le informazioni sui negozi.
+
+
   
