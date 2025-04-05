@@ -89,6 +89,7 @@ I dati utilizzati nel progetto sono contenuti in diversi file CSV:
   - Vendite[Negozi_ID] → Negozi[Negozi_ID]
 
   - Negozi[Provincia_ID] → Province[Provincia_ID]
+    
 
 ### 4. Creazione del Report:
 
@@ -103,17 +104,20 @@ I dati utilizzati nel progetto sono contenuti in diversi file CSV:
 
 - **Pagina 4 (Informazioni negozio e vendite)**:
   Una tabella unificata mostra le informazioni dei negozi insieme alle vendite, inclusi sconto, quantità e totale per ogni negozio.
+  
 
 ### 5. Funzionalità Bonus:
 
 - È stata creata una pagina che visualizza le vendite escluse i resi per i mesi di Gennaio e Febbraio, utilizzando il file Resi per sottrarre i resi dal totale vendite.
 
   #"Vendite Senza Resi" = Table.AddColumn(#"Vendite", "VenditeSenzaResi", each [TotaleVendite] - [Resi], type number)
+  
 
 ### 6. Interattività e Navigazione:
 
 - Sono stati creati Segnalibri per permettere all'utente di salvare e navigare tra le visualizzazioni più rilevanti.
 - È stata configurata una navigazione tramite pulsanti che consente di spostarsi tra le diverse pagine del report.
+  
 
 ## Istruzioni per l'Uso del Report
 
