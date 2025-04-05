@@ -118,6 +118,7 @@ I dati utilizzati nel progetto sono contenuti in diversi file CSV:
 - Sono stati creati Segnalibri per permettere all'utente di salvare e navigare tra le visualizzazioni più rilevanti.
 - È stata configurata una navigazione tramite pulsanti che consente di spostarsi tra le diverse pagine del report.
   
+---
 
 ## Istruzioni per l'Uso del Report
 
